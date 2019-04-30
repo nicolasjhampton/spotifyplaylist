@@ -15,5 +15,6 @@ function wrapRoutes(routes) {
 }
 
 module.exports = {
+    addDatabase,
     wrapRoutes
 }

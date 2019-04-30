@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { wrapRoutes } = require('./helpers.js');
+const { wrapRoutes } = require('./helpers/db_wrap.js');
 
 async function getUsers(req, res, next, db) {
   const names =  await db.select().from('users').pluck('username');

@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.cookie_secret));
 
 const store = new KnexSessionStore({
-  knex: db,
+  knex: app.locals.db,
   tablename: process.env.session_table
 });
  
