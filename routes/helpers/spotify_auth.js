@@ -6,7 +6,7 @@ function spotifyAuthEndpoint(id = process.env.spotify_client_id) {
     endpoint.searchParams.set('client_id', id);
     endpoint.searchParams.set('response_type', "code");
     endpoint.searchParams.set('redirect_uri', "http://localhost:3000/spotify/callback");
-    // params.append('scope', );
+    endpoint.searchParams.set('scope', "user-read-playback-state playlist-read-private playlist-read-collaborative user-read-recently-played");
     // params.append('state', ); // implement later
     // params.append('show_dialog', );
     return endpoint;
@@ -26,8 +26,7 @@ async function setSession(apiResponse) {
 }
 
 function isTokenExpired(auth) {
-    // return (auth.created_at + (auth.expires * 1000)) >= Date.now();
-    return true;
+    return (auth.created_at + (auth.expires * 1000)) < Date.now();
 }
 
 function authBody(code) {
@@ -65,12 +64,12 @@ function fetchAuth(params) {
 
 async function checkSession(req, res, next) {
     if(!req.session.spotify_auth) {
-        return res.redirect('/spotify');
+        return res.redirect(spotifyAuthEndpoint().toString());
     }
     if(isTokenExpired(req.session.spotify_auth)) {
         const apiResponse = await fetchAuth(refreshBody(req.session.spotify_auth.refresh));
         const newSession = await setSession(apiResponse);
-        Object.assign(req.session.spotify_auth, newSession);
+        req.session.spotify_auth = { ...req.session.spotify_auth, ...newSession };
     }
     return next();
 }
