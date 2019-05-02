@@ -1,9 +1,13 @@
 body {
+  display: inline-flex;
   margin: 0;
-  font: 14px 'Fredoka One', cursive;
+  font: 14px 'Righteous', cursive;
+  width: 100%;
+  justify-content: flex-end;
+  /* font: 14px 'Fredoka One', cursive; */
 }
 
-ul {
+.playlists {
   display: inline-flex;
   flex-direction: column;
   height: 100vh;
@@ -12,32 +16,30 @@ ul {
   margin: 0;
 }
 
-/* font-family: 'Righteous', cursive; */
-
-li {
+.playlist {
   display: inline-flex;
-  width: 300px;
   justify-content: space-between;
+  width: 300px;
   padding: 8px;
   background: rebeccapurple;
   color: white;
 }
 
-li img {
+.playlist img {
   width: 100px;
 }
 
-div {
-  width: 50%;
+.playlist .playlist-text {
   display: inline-flex;
   flex-direction: column;
   justify-content: space-around;
+  width: 50%;
 }
 
-h4, p {
+.playlist-text h4, .playlist-text p {
   margin: 0;
 }
 
-a {
+.playlist-text a {
   color: inherit;
 }

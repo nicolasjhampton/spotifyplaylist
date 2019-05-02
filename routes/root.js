@@ -27,17 +27,13 @@ async function processFetchRequests(requests) {
 }
 
 function formatPlayingData(playing) {
-    console.log(playing);
+    if(!playing || !playing.item) {
+        return;
+    }
     const { 
-        preview_url, 
-        id, 
-        name, 
+        preview_url, id, name, 
         artists: artistArr, 
-        album: { 
-            id: albumId, 
-            images: albumImages,
-            name: albumName
-        } 
+        album: { id: albumId, images: albumImages, name: albumName }
     } = playing.item;
 
     const { url: albumCover } = albumImages.shift();
@@ -57,11 +53,16 @@ function formatPlayingData(playing) {
 
 /* GET home page. */
 async function getIndex(req, res, next, db) {
-    const [ profile, playlists, playing ] = await processFetchRequests([
-        fetch(base + "/v1/me", fetchDetails(req)),
-        fetch(base + "/v1/me/playlists", fetchDetails(req)),
-        fetch(base + "/v1/me/player/currently-playing", fetchDetails(req))
-    ]);
+    let profile, playlists, playing;
+    try {
+        [ profile, playlists, playing ] = await processFetchRequests([
+            fetch(base + "/v1/me", fetchDetails(req)),
+            fetch(base + "/v1/me/playlists", fetchDetails(req)),
+            fetch(base + "/v1/me/player/currently-playing", fetchDetails(req))
+        ]);
+    } catch (e) {
+        console.log(e);
+    }
     const pl = playlists.items.map(playlist => ({
         playerLink: playlist.external_urls.spotify,
         id: playlist.id,

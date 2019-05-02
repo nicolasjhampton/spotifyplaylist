@@ -1,7 +1,16 @@
-<div>
+<% if(playing) { %>
+<div class="playing">
     <img src="<%= albumCover %>" alt="Art for <%= albumName %>"/>
     <div>
         <h3><%= trackName %></h3> by <h4><%= artist %>
         <iframe height="40px" src="<%= previewLink %>"></iframe>
     </div>
 </div>
+<% } else { %>
+<div class="not-playing">
+    <img src="https://i.etsystatic.com/11233347/r/il/42ebe3/1466715161/il_794xN.1466715161_ov6c.jpg" alt="No current playing music"/>
+    <div>
+        <h3>Currently not playing music</h3>
+    </div>
+</div>
+<% } %>
